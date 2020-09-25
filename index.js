@@ -29,15 +29,18 @@ const questions = [
     
     
     {
-       name: 'projectTitle',
-       message: 'What is the title of your project? (required)',
+    //    name: 'projectTitle',
+        name: "inputTitle",
+       message: 'Please enter the title of your project:',
        validate: function validTitle(text){
             if(text==="" || text===" "){
-                return "Please enter a  valid project title";
+                return "Please enter a  valid title";
             }
             return true;
        }
     },
+
+
     {
         name: 'description',
         message: 'Give a description for your project(required)',
