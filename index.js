@@ -1,151 +1,125 @@
 const inquirer = require('inquirer');
-
-const { writeFile, copyFile } = require('./utils/generate-site.js');
-
-const generatePage = require('./src/page-template.js');
-
-// const profileDataArgs = process.argv.slice(2);
-
-// const [name, github] = profileDataArgs;
-
-// fs.writeFile('index.html', generatePage(name, github), err => {
-//     if (err) throw err;
-  
-//     console.log('Portfolio complete! Check out index.html to see the output!');
-//   });
-
-const promptUser = () => {
-    return inquirer.prompt([
-        {
-            type: 'input',
-            name: 'fithubName',
-            message: 'Please enter your GitHub username: (required)',
-            validate: nameInput => {
-              if (nameInput) {
-                return true;
-              } else {
-                console.log('Please enter your username!');
-                return false;
-              }
+const EditorPrompt = require('inquirer/lib/prompts/editor');
+const generateMarkdown = require('./src/generateMarkdown.js');
+const writeToFile = require('./utils/writeFile.js');
+const fs = require('fs');
+// array of questions for user
+const questions = [
+    {
+       name: 'projectTitle',
+       message: 'What is your project title(required)',
+       validate: function validTitle(text){
+            if(text==="" || text===" "){
+                return "Please enter a  valid project title";
             }
-        },
-        {
-            type: 'input',
-            name: 'github',
-            message: 'Enter your GitHub Username (Required)',
-            validate: nameInput => {
-                if (nameInput) {
-                return true;
-                } else {
-                console.log('Please enter your GitHub Username!');
-                return false;
-                }
-            }
-        },
-        {
-            type: 'confirm',
-            name: 'confirmAbout',
-            message: 'Would you like to enter some information about yourself for an "About" section?',
-            default: true
-        },
-        {
-            type: 'input',
-            name: 'about',
-            message: 'Provide some information about yourself:',
-            when: ({ confirmAbout }) => confirmAbout
-          }
-    ]);
-  };
-
-const promptProject = portfolioData => {
-    // If there's no 'projects' array property, create one
-    if (!portfolioData.projects) {
-    portfolioData.projects = [];
-    }
-    console.log(`
-  =================
-  Add a New Project
-  =================
-  `);
-    return inquirer.prompt([
-      {
-        type: 'input',
-        name: 'name',
-        message: 'What is the name of your project?'
-      },
-      {
-        type: 'input',
+            return true;
+       }
+    },
+    {
         name: 'description',
-        message: 'Provide a description of the project (Required)',
-        validate: nameInput => {
-            if (nameInput) {
-            return true;
-            } else {
-            console.log('Please enter your Project Description!');
-            return false;
+        message: 'Give a description for your project(required)',
+        validate: function validDesc(text){
+            if(text==="" || text===" "){
+                return "Please give a description for the project"
             }
-        }
-      },
-      {
-        type: 'checkbox',
-        name: 'languages',
-        message: 'What did you this project with? (Check all that apply)',
-        choices: ['JavaScript', 'HTML', 'CSS', 'ES6', 'jQuery', 'Bootstrap', 'Node']
-      },
-      {
-        type: 'input',
-        name: 'link',
-        message: 'Enter the GitHub link to your project. (Required)',
-        validate: nameInput => {
-            if (nameInput) {
             return true;
-            } else {
-            console.log('Please enter your GitHub Link!');
-            return false;
+        }
+    },
+    {
+        type: 'confirm',
+        name: 'confirmInstallInstr',
+        message: 'Does anything need to be installed to run this project',
+        default: true
+    },
+    {
+        type: 'editor',
+        name: 'installInstr',
+        message: 'Please provide installation instructions',
+        when: ({ confirmInstallInstr }) => confirmInstallInstr,
+        validate: function validInstallInstr(text){
+            if(text==="" || text===" "){
+                return "Please give installation instructions"
             }
+            return true;
         }
-      },
-      {
-        type: 'confirm',
-        name: 'feature',
-        message: 'Would you like to feature this project?',
-        default: false
-      },
-      {
-        type: 'confirm',
-        name: 'confirmAddProject',
-        message: 'Would you like to enter another project?',
-        default: false
-      }
-    ])
-    .then(projectData => {
-        portfolioData.projects.push(projectData);
-        if (projectData.confirmAddProject) {
-            return promptProject(portfolioData);
-        } else {
-            return portfolioData;
+        
+    },
+    {
+        name:'usage',
+        message: 'Please give usage information(required)',
+        validate: function validUsage(text){
+            if(text==="" || text===" "){
+                return "Please give valid usage information"
+            }
+            return true;
         }
-    })
-  };
+    },
+    {
+        type: 'confirm',
+        name: 'confirmContribute',
+        message: 'Is this a collaborative project',
+        default: true
+    },
+    {
+        name: 'contribute',
+        message: 'Please provide guidelines for others to contribute to the project',
+        when: ({ confirmContribute }) => confirmContribute,
+        vaidate: function validContribute(text){
+            return "Please provide guidelines to contribute to the project"
+        }
+    },
+    {
+        name: 'test',
+        message: 'Please provide test instructions for the project(required)',
+        validate: function validTest(text){
+            if(text==="" || text===" "){
+                return "Please give valid testing considerations"
+            }
+            return true;
+        }
+    },
+    {
+        name: 'license',
+        type: 'list',
+        choices: ['MIT', 'GNU GPLv3', 'Apache License 2.0', 'ISC', 'GNU GPLv2', 'CC0-1.0', 'CC-BY-4.0', 'CC-BY-SA-4.0', 'SIL Open Font License 1.1', 'Boost Software License 1.0', 'The Unilicense'], 
+        message: 'Please choose a license'
+    },
+    {
+        name: 'gitHubUser',
+        message: 'What is your github username?(required)',
+        validate: function validUser(text){
+            if(text==="" || text===" "){
+                return "Please give a valid user id"
+            }
+            return true;
+        }
+    },
+    {
+        name: 'email',
+        message: 'Please give your email address(required)',
+        validate: function validEmail(text){
+            if(text==="" || text===" " || text.split('@').length < 0){
+                return "Please give a valid email address"
+            }
+            return true;
+        }
+    }
+];
 
-promptUser()
-  .then(promptProject)
-  .then(portfolioData => {
-    return generatePage(portfolioData);
-  })
-  .then(pageHTML => {
-    return writeFile(pageHTML);
-  })
-  .then(writeFileResponse => {
-    console.log(writeFileResponse);
-    return copyFile();
-  })
-  .then(copyFileResponse => {
-    console.log(copyFileResponse);
-  })
-  .catch(err => {
-    console.log(err);
-  });
 
+// function to initialize program
+function init() {
+     inquirer.prompt(questions)
+     .then(answers => {
+          console.log(answers['installInstr']);
+          var final = generateMarkdown(answers);
+          console.log(final);
+          writeToFile('README.md',final);
+     })
+     .catch(error => {
+          console.log(error);
+     })
+}
 
-
+// function call to initialize program
+init();
