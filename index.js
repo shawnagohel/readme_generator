@@ -86,27 +86,31 @@ const questions = [
         }
     },
 
-    
+
     {
         type: 'confirm',
         name: 'confirmContribute',
         message: 'Is this a collaborative project',
         default: true
     },
+
+
     {
         name: 'contribute',
-        message: 'Please provide guidelines for others to contribute to the project',
+        message: 'How do others contribute to the project',
         when: ({ confirmContribute }) => confirmContribute,
         vaidate: function validContribute(text){
             return "Please provide guidelines to contribute to the project"
         }
     },
+
+
     {
         name: 'test',
-        message: 'Please provide test instructions for the project(required)',
+        message: 'How do you test this code? (required)',
         validate: function validTest(text){
             if(text==="" || text===" "){
-                return "Please give valid testing considerations"
+                return "Please give valid testing instructions"
             }
             return true;
         }
