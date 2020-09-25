@@ -43,7 +43,7 @@ const questions = [
 
     {
         name: 'description',
-        message: 'Give a description for your project(required)',
+        message: 'Please give a brief description of your project: (required)',
         validate: function validDesc(text){
             if(text==="" || text===" "){
                 return "Please give a description for the project"
@@ -51,12 +51,15 @@ const questions = [
             return true;
         }
     },
+
     {
         type: 'confirm',
         name: 'confirmInstallInstr',
         message: 'Does anything need to be installed to run this project',
         default: true
     },
+
+
     {
         type: 'editor',
         name: 'installInstr',
@@ -70,6 +73,8 @@ const questions = [
         }
         
     },
+
+
     {
         name:'usage',
         message: 'Please give usage information(required)',
@@ -80,6 +85,8 @@ const questions = [
             return true;
         }
     },
+
+    
     {
         type: 'confirm',
         name: 'confirmContribute',
