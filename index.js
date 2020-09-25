@@ -6,8 +6,31 @@ const fs = require('fs');
 // array of questions for user
 const questions = [
     {
+        name: 'gitHubUser',
+        message: 'Please enter your github username (required)',
+        validate: function validUser(text){
+            if(text==="" || text===" "){
+                return "You must enter a username"
+            }
+            return true;
+        }
+    },
+
+    {
+        name: 'email',
+        message: 'Please enter your email address: (required)',
+        validate: function validEmail(text){
+            if(text==="" || text===" " || text.split('@').length < 0){
+                return "Please give a valid email address"
+            }
+            return true;
+        }
+    }
+    
+    
+    {
        name: 'projectTitle',
-       message: 'What is your project title(required)',
+       message: 'What is the title of your project? (required)',
        validate: function validTitle(text){
             if(text==="" || text===" "){
                 return "Please enter a  valid project title";
@@ -84,26 +107,8 @@ const questions = [
         choices: ['MIT', 'GNU GPLv3', 'Apache License 2.0', 'ISC', 'GNU GPLv2', 'CC0-1.0', 'CC-BY-4.0', 'CC-BY-SA-4.0', 'SIL Open Font License 1.1', 'Boost Software License 1.0', 'The Unilicense'], 
         message: 'Please choose a license'
     },
-    {
-        name: 'gitHubUser',
-        message: 'What is your github username?(required)',
-        validate: function validUser(text){
-            if(text==="" || text===" "){
-                return "Please give a valid user id"
-            }
-            return true;
-        }
-    },
-    {
-        name: 'email',
-        message: 'Please give your email address(required)',
-        validate: function validEmail(text){
-            if(text==="" || text===" " || text.split('@').length < 0){
-                return "Please give a valid email address"
-            }
-            return true;
-        }
-    }
+    
+    
 ];
 
 
