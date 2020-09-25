@@ -25,8 +25,8 @@ const questions = [
             }
             return true;
         }
-    }
-    
+    },
+
     
     {
     //    name: 'projectTitle',
@@ -115,6 +115,8 @@ const questions = [
             return true;
         }
     },
+
+
     {
         name: 'license',
         type: 'list',
