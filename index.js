@@ -43,10 +43,10 @@ const questions = [
 
     {
         name: 'description',
-        message: 'Please give a brief description of your project: (required)',
+        message: 'Please input a brief description of your project: (required)',
         validate: function validDesc(text){
             if(text==="" || text===" "){
-                return "Please give a description for the project"
+                return "Please input a description for the project"
             }
             return true;
         }
@@ -55,7 +55,7 @@ const questions = [
     {
         type: 'confirm',
         name: 'confirmInstallInstr',
-        message: 'Does anything need to be installed to run this project',
+        message: 'Does anything need to be installed to run this project?',
         default: true
     },
 
