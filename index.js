@@ -16,17 +16,20 @@ const questions = [
         }
     },
 
+
     {
-        name: 'email',
-        message: 'Please enter your email address: (required)',
-        validate: function validEmail(text){
-            if(text==="" || text===" " || text.split('@').length < 0){
-                return "Please give a valid email address"
+        type: "input",
+        name: "email",
+        message: "Please enter your email address:",
+        validate: function (input) {
+            const done = this.async();
+            if (input == "") {
+                return done("You must enter your email")
+            } else {
+                done(true)
             }
-            return true;
         }
     },
-
     
     {
         name: "title",

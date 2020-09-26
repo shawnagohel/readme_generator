@@ -1,11 +1,11 @@
-# jack 
-  ## ahwna@
-  ## sahwna
-  ## jack tutoring
+# readme 
+  ## shwna@gmail
+  ## shawnagohel
+  ## readme generator
   ## undefined
-  ## true
+  ## y
   ## undefined
-  ## n
+  ## node
   ## undefined
   ## n
   ## n
