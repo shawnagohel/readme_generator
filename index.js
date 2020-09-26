@@ -29,8 +29,7 @@ const questions = [
 
     
     {
-    //    name: 'projectTitle',
-        name: "inputTitle",
+        name: "title",
        message: 'Please enter the title of your project:',
        validate: function validTitle(text){
             if(text==="" || text===" "){
@@ -52,6 +51,31 @@ const questions = [
         }
     },
 
+    // 
+
+    {
+        type: 'confirmabout',
+        name: 'confirmabout',
+        message: 'Would you like to enter some information about yourself for an "About" section?',
+        default: true
+      },
+
+      {
+        type: 'input',
+        name: 'about',
+        message: 'Provide some information about yourself:',
+        when: ({ confirmAbout }) => {
+          if (confirmAbout) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      },
+
+// 
+
+
     {
         type: 'confirm',
         name: 'confirmInstallInstr',
@@ -60,19 +84,19 @@ const questions = [
     },
 
 
-    {
-        type: 'editor',
-        name: 'installInstr',
-        message: 'Please provide installation instructions',
-        when: ({ confirmInstallInstr }) => confirmInstallInstr,
-        validate: function validInstallInstr(text){
-            if(text==="" || text===" "){
-                return "Please give installation instructions"
-            }
-            return true;
-        }
+    // {
+    //     type: 'editor',
+    //     name: 'installInstr',
+    //     message: 'Please provide installation instructions',
+    //     // when: ({ confirmInstallInstr }) => confirmInstallInstr,
+    //     validate: function validInstallInstr(text){
+    //         if(text==="" || text===" "){
+    //             return "Please give installation instructions"
+    //         }
+    //         return true;
+    //     }
         
-    },
+    // },
 
 
     {
@@ -88,7 +112,7 @@ const questions = [
 
 
     {
-        type: 'confirm',
+        type: 'confirmcollaborative',
         name: 'confirmContribute',
         message: 'Is this a collaborative project',
         default: true
@@ -132,9 +156,9 @@ const questions = [
 function init() {
      inquirer.prompt(questions)
      .then(answers => {
-          console.log(answers['installInstr']);
+          console.log (answers);
           var final = generateMarkdown(answers);
-          console.log(final);
+        //   console.log(final);
           writeToFile('README.md',final);
      })
      .catch(error => {
