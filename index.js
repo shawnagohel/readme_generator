@@ -3,7 +3,8 @@ const EditorPrompt = require('inquirer/lib/prompts/editor');
 const generateMarkdown = require('./src/generateMarkdown.js');
 const writeToFile = require('./utils/writeFile.js');
 const fs = require('fs');
-// array of questions for user
+
+// user questions
 const questions = [
     {
         name: 'gitHubUser',
@@ -155,7 +156,7 @@ const questions = [
 ];
 
 
-// function to initialize program
+// function to start program
 function init() {
      inquirer.prompt(questions)
      .then(answers => {
@@ -169,5 +170,5 @@ function init() {
      })
 }
 
-// function call to initialize program
+// function call to start program
 init();

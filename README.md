@@ -1,11 +1,11 @@
-# readme 
-  ## shwna@gmail
-  ## shawnagohel
+# tutor 
+  ## shawna@gmail
+  ## shawna
   ## readme generator
   ## undefined
-  ## y
+  ## n
   ## undefined
-  ## node
+  ## n
   ## undefined
   ## n
   ## n
