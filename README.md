@@ -1,13 +1,13 @@
-# tutor 
-  ## shawna@gmail
-  ## shawna
-  ## readme generator
+# README generator 
+  ## shawan@gmail.com
+  ## shawnagohel
+  ## create a README with this application
   ## undefined
   ## n
   ## undefined
-  ## n
+  ## node
   ## undefined
   ## n
-  ## n
-  ## MIT
+  ## yes
+  ## GNU GPLv2
   
